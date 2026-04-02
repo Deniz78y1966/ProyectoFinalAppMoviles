@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.AddBookPage"
+             Title="Agregar Libro">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Agregar Libro" FontSize="24" FontAttributes="Bold"/>
+
+            <Label Text="Título *"/>
+            <Entry x:Name="TitleEntry" Placeholder="Título del libro"/>
+
+            <Label Text="Autor *"/>
+            <Entry x:Name="AuthorEntry" Placeholder="Nombre del autor"/>
+
+            <Label Text="ISBN"/>
+            <Entry x:Name="ISBNEntry" Placeholder="ISBN del libro" Keyboard="Numeric"/>
+
+            <Label Text="Año de publicación"/>
+            <Entry x:Name="YearEntry" Placeholder="Ej: 2023" Keyboard="Numeric"/>
+
+            <Label Text="Número de páginas"/>
+            <Entry x:Name="PagesEntry" Placeholder="Ej: 300" Keyboard="Numeric"/>
+
+            <Label Text="Descripción"/>
+            <Editor x:Name="DescriptionEntry"
+                    Placeholder="Descripción del libro"
+                    HeightRequest="120"/>
+
+            <HorizontalStackLayout Spacing="10"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

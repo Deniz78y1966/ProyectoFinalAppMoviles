@@ -17,7 +17,13 @@ namespace ProyectoFinal
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton<DatabaseService>(); 
+            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddTransient<Views.LibraryPage>();
+            builder.Services.AddTransient<Views.SearchPage>();
+            builder.Services.AddTransient<Views.StatisticsPage>();
+            builder.Services.AddTransient<Views.AddBookPage>();
+            builder.Services.AddTransient<Views.BookDetailPage>();
+            builder.Services.AddSingleton<Service.BookApiService>();
 
 #if DEBUG
             builder.Logging.AddDebug();

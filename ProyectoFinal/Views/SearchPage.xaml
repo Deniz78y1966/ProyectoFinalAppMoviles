@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.SearchPage"
+             Title="Buscar Libros">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Search bar -->
+        <Label Text="Buscar Libros" FontSize="24" FontAttributes="Bold"/>
+
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+            <Entry x:Name="SearchEntry"
+                   Grid.Column="0"
+                   Placeholder="Título, autor o ISBN..."
+                   VerticalOptions="Center"/>
+            <Button Grid.Column="1"
+                    Text="Buscar"
+                    Clicked="OnSearchTapped"
+                    BackgroundColor="#5B4FCF"
+                    TextColor="White"
+                    VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- Loading indicator -->
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsRunning="False"
+                           IsVisible="False"
+                           Color="#5B4FCF"/>
+
+        <!-- No results message -->
+        <Label x:Name="NoResultsLabel"
+               Text="No se encontraron resultados."
+               IsVisible="False"
+               HorizontalOptions="Center"
+               TextColor="Gray"/>
+
+        <!-- Results list -->
+        <CollectionView x:Name="ResultsCollection"
+                        ItemsSource="{Binding Results}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnDefinitions="60,*">
+
+                        <!-- Book cover -->
+                        <Image Grid.Column="0"
+                               Source="{Binding ThumbnailUrl}"
+                               WidthRequest="50"
+                               HeightRequest="70"
+                               Aspect="AspectFill"/>
+
+                        <!-- Book info -->
+                        <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" Spacing="4">
+                            <Label Text="{Binding Title}"
+                                   FontAttributes="Bold"
+                                   FontSize="15"
+                                   LineBreakMode="TailTruncation"/>
+                            <Label Text="{Binding Author}"
+                                   FontSize="13"
+                                   TextColor="Gray"/>
+
+                            <!-- Tap to see details -->
+                            <Button Text="Ver detalles"
+                                    FontSize="12"
+                                    Clicked="OnBookTapped"
+                                    BackgroundColor="#5B4FCF"
+                                    TextColor="White"
+                                    CornerRadius="8"
+                                    HorizontalOptions="Start"/>
+                        </VerticalStackLayout>
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+
+</ContentPage>

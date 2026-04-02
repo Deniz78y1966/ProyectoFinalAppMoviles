@@ -6,9 +6,15 @@
     xmlns:local="clr-namespace:ProyectoFinal"
     Title="ProyectoFinal">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Mi Biblioteca" Icon="library.png">
+        <ShellContent Route="library" ContentTemplate="{DataTemplate local:LibraryPage}"/>
+    </FlyoutItem>
 
+    <FlyoutItem Title="Buscar Libros" Icon="search.png">
+        <ShellContent Route="search" ContentTemplate="{DataTemplate local:SearchPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Estadísticas" Icon="stats.png">
+        <ShellContent Route="statistics" ContentTemplate="{DataTemplate local:StatisticsPage}"/>
+    </FlyoutItem>
 </Shell>
