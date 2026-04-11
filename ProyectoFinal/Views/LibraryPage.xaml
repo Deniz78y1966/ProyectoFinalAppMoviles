@@ -2,55 +2,86 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.LibraryPage"
+             x:Name="MainPage"
              Title="Mi Biblioteca">
 
-    <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20" Spacing="15">
+
         <Label Text="Mi Biblioteca" FontSize="24" FontAttributes="Bold"/>
 
-    <CollectionView ItemsSource="{Binding Books}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                    <Border Style="{StaticResource CardStyle}">
+        <Button Text="+ Agregar Libro"
+                Clicked="OnAddBookTapped"
+                BackgroundColor="#5B4FCF"
+                TextColor="White"
+                HorizontalOptions="End"/>
+
+        <CollectionView x:Name="BooksCollection"
+                        ItemsSource="{Binding Books}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10" Margin="0,5"
+                            StrokeShape="RoundRectangle 10"
+                            Stroke="Transparent"
+                            BackgroundColor="#F5F5F5">
                         <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
 
                             <!-- Cover Image -->
-                            <Image Grid.Column="0" 
-               Source="{Binding CoverUrl}"
-               Aspect="AspectFill"
-               HeightRequest="100"/>
+                            <Image Grid.Column="0"
+                                   Source="{Binding CoverUrl}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="100"/>
 
                             <!-- Info -->
-                            <StackLayout Grid.Column="1">
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
                                 <Label Text="{Binding Title}"
-                   Style="{StaticResource SubtitleStyle}"/>
-                                <Label Text="{Binding Author}"/>
-                                <Label Text="{Binding Genre}" 
-                   Style="{StaticResource CaptionStyle}"/>
-                                <Label Text="{Binding IsRead, Converter={StaticResource BoolToReadConverter}}"/>
-                            </StackLayout>
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Author}"
+                                       FontSize="13"
+                                       TextColor="Gray"/>
+                                <Label Text="{Binding ISBN}"
+                                       FontSize="11"
+                                       TextColor="Gray"/>
+                            </VerticalStackLayout>
 
                             <!-- Actions -->
-                            <StackLayout Grid.Column="2">
-                                <Button Text=" " 
-                    Command="{Binding Source={x:Reference MainPage}, Path=BindingContext.ViewDetails}"
-                    CommandParameter="{Binding .}"/>
-                                <Button Text="✓" 
-                        Command="{Binding Source={x:Reference MainPage}, Path=BindingContext.MarkAsRead}"
-                        CommandParameter="{Binding .}"/>
-                            </StackLayout>
+                            <VerticalStackLayout Grid.Column="2" Spacing="5">
+                                <Button Text="👁"
+                                        Clicked="OnBookTapped"
+                                        BackgroundColor="#5B4FCF"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        WidthRequest="45"/>
+                                <Button Text="✓"
+                                        Clicked="OnMarkAsReadTapped"
+                                        BackgroundColor="#43A047"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        WidthRequest="45"/>
+                            </VerticalStackLayout>
+
                         </Grid>
                     </Border>
                 </DataTemplate>
-        </CollectionView.ItemTemplate>
+            </CollectionView.ItemTemplate>
 
-        <CollectionView.EmptyView>
-            <StackLayout>
-                <Label Text=" " FontSize="48"/>
-                <Label Text="Tu biblioteca está vacía"/>
-                <Button Text="Agregar primer libro" Command="{Binding AddBookCommand}"/>
-            </StackLayout>
-        </CollectionView.EmptyView>
-    </CollectionView>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="10" Padding="20">
+                    <Label Text="📚" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="Tu biblioteca está vacía"
+                           FontSize="16"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"/>
+                    <Button Text="Agregar primer libro"
+                            Clicked="OnAddBookTapped"
+                            BackgroundColor="#5B4FCF"
+                            TextColor="White"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+        </CollectionView>
+
     </VerticalStackLayout>
 
 </ContentPage>

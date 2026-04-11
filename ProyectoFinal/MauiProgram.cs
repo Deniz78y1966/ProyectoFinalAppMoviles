@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ProyectoFinal.Views;
 using ProyectoFinal.Services;
 
 
@@ -8,6 +9,7 @@ namespace ProyectoFinal
     {
         public static MauiApp CreateMauiApp()
         {
+#pragma warning disable CA1416
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -17,13 +19,13 @@ namespace ProyectoFinal
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<Services.DatabaseService>();
             builder.Services.AddTransient<Views.LibraryPage>();
             builder.Services.AddTransient<Views.SearchPage>();
             builder.Services.AddTransient<Views.StatisticsPage>();
             builder.Services.AddTransient<Views.AddBookPage>();
             builder.Services.AddTransient<Views.BookDetailPage>();
-            builder.Services.AddSingleton<Service.BookApiService>();
+            builder.Services.AddSingleton<Services.BookApiService>();
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -31,5 +33,6 @@ namespace ProyectoFinal
 
             return builder.Build();
         }
+#pragma warning restore CA1416
     }
 }

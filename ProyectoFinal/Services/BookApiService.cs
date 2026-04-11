@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace ProyectoFinal.Service;
+namespace ProyectoFinal.Services;
 
 public class BookApiService
 {
     private readonly HttpClient httpClient;
+    private const string API_KEY = "AIzaSyAw9L0GMDzKa4aqTNtVBDDhGHn4Jk9Fbjc";
     private const string API_URL = "https://www.googleapis.com/books/v1/volumes";
     public BookApiService()
     {
@@ -16,7 +17,7 @@ public class BookApiService
     }
     public async Task<List<BookSearchResult>> SearchBooksAsync(string query)
     {
-        var url = $"{API_URL}?q={Uri.EscapeDataString(query)}&maxResults=20";
+        var url = $"{API_URL}?q={Uri.EscapeDataString(query)}&maxResults=20&key={API_KEY}";
         var response = await httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
 
@@ -34,6 +35,7 @@ public class BookApiService
 
             results.Add(new BookSearchResult
             {
+#pragma warning disable CS8601
                 Id = item.GetProperty("id").GetString(),
                 Title = info.TryGetProperty("title", out var t) ? t.GetString() : "Unknown",
                 Author = info.TryGetProperty("authors", out var a)
@@ -43,6 +45,7 @@ public class BookApiService
                                img.TryGetProperty("thumbnail", out var thumb)
                                    ? thumb.GetString()
                                    : null
+#pragma warning restore CS8601
             });        
         }
         return results;
@@ -50,7 +53,7 @@ public class BookApiService
 
     public async Task<BookDetail> GetBookDetailAsync(string bookId)
     {
-        var url = $"{API_URL}/{bookId}";
+        var url = $"{API_URL}/{bookId}?key={API_KEY}";
         var response = await httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
 
@@ -60,6 +63,7 @@ public class BookApiService
 
         return new BookDetail
         {
+#pragma warning disable CS8601
             Title = info.TryGetProperty("title", out var t) ? t.GetString() : "Unknown",
             Author = info.TryGetProperty("authors", out var a)
                           ? string.Join(", ", a.EnumerateArray().Select(x => x.GetString()))
@@ -83,8 +87,13 @@ public class BookApiService
                                 ? thumb.GetString()
                                 : null,
             Categories = info.TryGetProperty("categories", out var cats)
-                                ? cats.EnumerateArray().Select(x => x.GetString()).ToList()
-                                : new List<string>()
+                             ? cats.EnumerateArray()
+                                .Select(x => x.GetString())
+                                .Where(x => x != null)
+                                .Select(x => x!)
+                                .ToList()
+                             : new List<string>()
+#pragma warning restore CS8601
         };  
     }
 }

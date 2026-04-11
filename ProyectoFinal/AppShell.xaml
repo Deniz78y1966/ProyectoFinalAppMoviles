@@ -4,17 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ProyectoFinal"
+    xmlns:views="clr-namespace:ProyectoFinal.Views"
     Title="ProyectoFinal">
 
     <FlyoutItem Title="Mi Biblioteca" Icon="library.png">
-        <ShellContent Route="library" ContentTemplate="{DataTemplate local:LibraryPage}"/>
+        <ShellContent Route="library" ContentTemplate="{DataTemplate views:LibraryPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Buscar Libros" Icon="search.png">
-        <ShellContent Route="search" ContentTemplate="{DataTemplate local:SearchPage}"/>
+        <ShellContent Route="search" ContentTemplate="{DataTemplate views:SearchPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Estadísticas" Icon="stats.png">
-        <ShellContent Route="statistics" ContentTemplate="{DataTemplate local:StatisticsPage}"/>
+        <ShellContent Route="statistics" ContentTemplate="{DataTemplate views:StatisticsPage}"/>
     </FlyoutItem>
+
 </Shell>

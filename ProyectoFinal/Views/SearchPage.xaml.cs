@@ -1,5 +1,5 @@
 using ProyectoFinal.Models;
-using ProyectoFinal.Service;
+using ProyectoFinal.Services;
 
 namespace ProyectoFinal.Views;
 
@@ -8,10 +8,10 @@ public partial class SearchPage : ContentPage
     private readonly BookApiService _bookApiService;
     public List<BookSearchResult> Results { get; set; } = new();
 
-    public SearchPage()
+    public SearchPage(BookApiService bookApiService)
     {
         InitializeComponent();
-        _bookApiService = new BookApiService();
+        _bookApiService = bookApiService;
         BindingContext = this;
     }
 
@@ -21,7 +21,7 @@ public partial class SearchPage : ContentPage
 
         if (string.IsNullOrWhiteSpace(query))
         {
-            await DisplayAlertAsync("Error", "Escribe algo para buscar", "OK");
+            await DisplayAlert("Error", "Escribe algo para buscar", "OK");
             return;
         }
 
@@ -39,7 +39,7 @@ public partial class SearchPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", $"No se pudo buscar: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"No se pudo buscar: {ex.Message}", "OK");
         }
         finally
         {

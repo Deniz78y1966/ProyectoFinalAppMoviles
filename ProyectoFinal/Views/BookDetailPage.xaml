@@ -2,9 +2,110 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.BookDetailPage"
-             Title="Detalles del Libro">
+             Title="Detalle del Libro">
 
-    <VerticalStackLayout Padding="20">
-        <Label Text="Detalles del Libro" FontSize="24" FontAttributes="Bold"/>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Book Cover -->
+            <Image x:Name="CoverImage"
+                   Source="{Binding CoverUrl}"
+                   HeightRequest="200"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"/>
+
+            <!-- Title -->
+            <Label Text="Título" FontAttributes="Bold"/>
+            <Entry x:Name="TitleEntry"
+                   Text="{Binding Title}"
+                   Placeholder="Título del libro"/>
+
+            <!-- Author -->
+            <Label Text="Autor" FontAttributes="Bold"/>
+            <Entry x:Name="AuthorEntry"
+                   Text="{Binding Author}"
+                   Placeholder="Nombre del autor"/>
+
+            <!-- ISBN -->
+            <Label Text="ISBN" FontAttributes="Bold"/>
+            <Entry x:Name="ISBNEntry"
+                   Text="{Binding ISBN}"
+                   Placeholder="ISBN"
+                   Keyboard="Numeric"/>
+
+            <!-- Published Year -->
+            <Label Text="Año de publicación" FontAttributes="Bold"/>
+            <Entry x:Name="YearEntry"
+                   Text="{Binding PublishedYear}"
+                   Placeholder="Año"
+                   Keyboard="Numeric"/>
+
+            <!-- Page Count -->
+            <Label Text="Número de páginas" FontAttributes="Bold"/>
+            <Entry x:Name="PagesEntry"
+                   Text="{Binding PageCount}"
+                   Placeholder="Páginas"
+                   Keyboard="Numeric"/>
+
+            <!-- Category Picker -->
+            <Label Text="Categoría" FontAttributes="Bold"/>
+            <Picker x:Name="CategoryPicker"
+                    Title="Selecciona una categoría">
+                <Picker.Items>
+                    <x:String>Ficción</x:String>
+                    <x:String>No Ficción</x:String>
+                    <x:String>Ciencia</x:String>
+                    <x:String>Historia</x:String>
+                    <x:String>Tecnología</x:String>
+                    <x:String>Arte</x:String>
+                    <x:String>Otro</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <!-- Read Status -->
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox x:Name="ReadCheckBox"/>
+                <Label Text="Libro leído"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Rating -->
+            <Label Text="Calificación" FontAttributes="Bold"/>
+            <HorizontalStackLayout Spacing="5">
+                <Button x:Name="Star1" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
+                <Button x:Name="Star2" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
+                <Button x:Name="Star3" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
+                <Button x:Name="Star4" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
+                <Button x:Name="Star5" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
+            </HorizontalStackLayout>
+
+            <!-- Description -->
+            <Label Text="Descripción" FontAttributes="Bold"/>
+            <Editor x:Name="DescriptionEditor"
+                    Text="{Binding Description}"
+                    Placeholder="Descripción del libro"
+                    HeightRequest="120"/>
+
+            <!-- Action Buttons -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Guardar"
+                        Clicked="OnSaveBookTapped"
+                        BackgroundColor="#5B4FCF"
+                        TextColor="White"
+                        WidthRequest="100"/>
+                <Button Text="Eliminar"
+                        Clicked="OnDeleteBookTapped"
+                        BackgroundColor="#E53935"
+                        TextColor="White"
+                        WidthRequest="100"/>
+                <Button Text="Cancelar"
+                        Clicked="OnBackTapped"
+                        BackgroundColor="Gray"
+                        TextColor="White"
+                        WidthRequest="100"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
