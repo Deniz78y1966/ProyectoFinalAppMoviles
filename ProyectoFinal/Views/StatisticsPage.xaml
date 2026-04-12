@@ -7,13 +7,13 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Label Text="Estadísticas" FontSize="24" FontAttributes="Bold"/>
+            <Label Text="Estadísticas" Style="{StaticResource TitleStyle}"/>
 
             <!-- Summary Cards -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
 
                 <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#5B4FCF" Padding="15"
-            StrokeShape="RoundRectangle 10" Stroke="Transparent">
+                        StrokeShape="RoundRectangle 10" Stroke="Transparent">
                     <VerticalStackLayout>
                         <Label Text="Total Libros" TextColor="White" FontSize="12"/>
                         <Label Text="{Binding TotalBooks}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
@@ -21,7 +21,7 @@
                 </Border>
 
                 <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#E53935" Padding="15"
-            StrokeShape="RoundRectangle 10" Stroke="Transparent">
+                        StrokeShape="RoundRectangle 10" Stroke="Transparent">
                     <VerticalStackLayout>
                         <Label Text="Páginas Leídas" TextColor="White" FontSize="12"/>
                         <Label Text="{Binding TotalPages}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
@@ -29,7 +29,7 @@
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#43A047" Padding="15"
-            StrokeShape="RoundRectangle 10" Stroke="Transparent">
+                        StrokeShape="RoundRectangle 10" Stroke="Transparent">
                     <VerticalStackLayout>
                         <Label Text="Libros Leídos" TextColor="White" FontSize="12"/>
                         <Label Text="{Binding BooksRead}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
@@ -37,7 +37,7 @@
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#FB8C00" Padding="15"
-            StrokeShape="RoundRectangle 10" Stroke="Transparent">
+                        StrokeShape="RoundRectangle 10" Stroke="Transparent">
                     <VerticalStackLayout>
                         <Label Text="Pendientes" TextColor="White" FontSize="12"/>
                         <Label Text="{Binding BooksPending}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
@@ -45,16 +45,18 @@
                 </Border>
 
             </Grid>
+
             <!-- Most read category -->
-            <Border BackgroundColor="#F5F5F5" Padding="15"
-        StrokeShape="RoundRectangle 10" Stroke="Transparent">
+            <Border BackgroundColor="{StaticResource Surface}" Padding="15"
+                    StrokeShape="RoundRectangle 10" Stroke="Transparent">
                 <HorizontalStackLayout Spacing="10">
-                    <Label Text="Categoría más leída:" FontAttributes="Bold" VerticalOptions="Center"/>
-                    <Label Text="{Binding MostReadCategory}" TextColor="#5B4FCF" VerticalOptions="Center"/>
+                    <Label Text="Categoría más leída:" Style="{StaticResource SubtitleStyle}" VerticalOptions="Center"/>
+                    <Label Text="{Binding MostReadCategory}" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
                 </HorizontalStackLayout>
             </Border>
+
             <!-- Bar Chart -->
-            <Label Text="Distribución por género" FontSize="18" FontAttributes="Bold"/>
+            <Label Text="Distribución por género" Style="{StaticResource SubtitleStyle}"/>
             <GraphicsView x:Name="StatsChart"
                           HeightRequest="250"
                           Drawable="{Binding ChartDrawable}"/>

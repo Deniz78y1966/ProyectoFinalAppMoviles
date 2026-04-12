@@ -1,6 +1,6 @@
-﻿namespace ProyectoFinal.Views;
+﻿namespace ProyectoFinal.Drawables;
 
-public class BooksChartDrawable : IDrawable
+public class StatisticsDrawable : IDrawable
 {
     public int BooksRead { get; set; }
     public int BooksPending { get; set; }

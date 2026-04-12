@@ -7,70 +7,70 @@
     <VerticalStackLayout Padding="20" Spacing="15">
 
         <!-- Search bar -->
-        <Label Text="Buscar Libros" FontSize="24" FontAttributes="Bold"/>
+        <Label Text="Buscar Libros" Style="{StaticResource TitleStyle}"/>
 
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-            <Entry x:Name="SearchEntry"
-                   Grid.Column="0"
+            <Entry Grid.Column="0"
+                   Text="{Binding SearchQuery}"
                    Placeholder="Título, autor o ISBN..."
+                   Style="{StaticResource StandardEntryStyle}"
                    VerticalOptions="Center"/>
             <Button Grid.Column="1"
                     Text="Buscar"
-                    Clicked="OnSearchTapped"
-                    BackgroundColor="#5B4FCF"
-                    TextColor="White"
+                    Command="{Binding SearchCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}"
                     VerticalOptions="Center"/>
         </Grid>
 
         <!-- Loading indicator -->
-        <ActivityIndicator x:Name="LoadingIndicator"
-                           IsRunning="False"
-                           IsVisible="False"
-                           Color="#5B4FCF"/>
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Primary}"/>
 
         <!-- No results message -->
-        <Label x:Name="NoResultsLabel"
-               Text="No se encontraron resultados."
-               IsVisible="False"
+        <Label Text="No se encontraron resultados."
+               IsVisible="{Binding NoResults}"
                HorizontalOptions="Center"
-               TextColor="Gray"/>
+               Style="{StaticResource CaptionStyle}"/>
 
         <!-- Results list -->
-        <CollectionView x:Name="ResultsCollection"
-                        ItemsSource="{Binding Results}"
+        <CollectionView ItemsSource="{Binding Results}"
                         SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10" ColumnDefinitions="60,*">
+                    <Border Style="{StaticResource CardStyle}">
+                        <Grid Padding="10" ColumnDefinitions="60,*">
 
-                        <!-- Book cover -->
-                        <Image Grid.Column="0"
-                               Source="{Binding ThumbnailUrl}"
-                               WidthRequest="50"
-                               HeightRequest="70"
-                               Aspect="AspectFill"/>
+                            <!-- Book cover -->
+                            <Image Grid.Column="0"
+                                   Source="{Binding ThumbnailUrl}"
+                                   WidthRequest="50"
+                                   HeightRequest="70"
+                                   Aspect="AspectFill"/>
 
-                        <!-- Book info -->
-                        <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" Spacing="4">
-                            <Label Text="{Binding Title}"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   LineBreakMode="TailTruncation"/>
-                            <Label Text="{Binding Author}"
-                                   FontSize="13"
-                                   TextColor="Gray"/>
+                            <!-- Book info -->
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" Spacing="4">
+                                <Label Text="{Binding Title}"
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Author}"
+                                       FontSize="13"
+                                       TextColor="Gray"/>
 
-                            <!-- Tap to see details -->
-                            <Button Text="Ver detalles"
-                                    FontSize="12"
-                                    Clicked="OnBookTapped"
-                                    BackgroundColor="#5B4FCF"
-                                    TextColor="White"
-                                    CornerRadius="8"
-                                    HorizontalOptions="Start"/>
-                        </VerticalStackLayout>
+                                <!-- Tap to see details -->
+                                <Button Text="Ver detalles"
+                                        FontSize="12"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewDetailsCommand}"                                        
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#5B4FCF"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
 
-                    </Grid>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

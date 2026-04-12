@@ -8,47 +8,46 @@
         <VerticalStackLayout Padding="20" Spacing="15">
 
             <!-- Book Cover -->
-            <Image x:Name="CoverImage"
-                   Source="{Binding CoverUrl}"
+            <Image Source="{Binding CurrentBook.CoverUrl}"
                    HeightRequest="200"
                    Aspect="AspectFit"
                    HorizontalOptions="Center"/>
 
             <!-- Title -->
-            <Label Text="Título" FontAttributes="Bold"/>
-            <Entry x:Name="TitleEntry"
-                   Text="{Binding Title}"
-                   Placeholder="Título del libro"/>
+            <Label Text="Título" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding CurrentBook.Title}"
+                   Placeholder="Título del libro"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
             <!-- Author -->
-            <Label Text="Autor" FontAttributes="Bold"/>
-            <Entry x:Name="AuthorEntry"
-                   Text="{Binding Author}"
-                   Placeholder="Nombre del autor"/>
+            <Label Text="Autor" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding CurrentBook.Author}"
+                   Placeholder="Nombre del autor"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
             <!-- ISBN -->
-            <Label Text="ISBN" FontAttributes="Bold"/>
-            <Entry x:Name="ISBNEntry"
-                   Text="{Binding ISBN}"
+            <Label Text="ISBN" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding CurrentBook.ISBN}"
                    Placeholder="ISBN"
-                   Keyboard="Numeric"/>
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
             <!-- Published Year -->
-            <Label Text="Año de publicación" FontAttributes="Bold"/>
-            <Entry x:Name="YearEntry"
-                   Text="{Binding PublishedYear}"
+            <Label Text="Año de publicación" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding CurrentBook.PublishedYear}"
                    Placeholder="Año"
-                   Keyboard="Numeric"/>
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
             <!-- Page Count -->
-            <Label Text="Número de páginas" FontAttributes="Bold"/>
-            <Entry x:Name="PagesEntry"
-                   Text="{Binding PageCount}"
+            <Label Text="Número de páginas" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding CurrentBook.PageCount}"
                    Placeholder="Páginas"
-                   Keyboard="Numeric"/>
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
             <!-- Category Picker -->
-            <Label Text="Categoría" FontAttributes="Bold"/>
+            <Label Text="Categoría" Style="{StaticResource SubtitleStyle}"/>
             <Picker x:Name="CategoryPicker"
                     Title="Selecciona una categoría">
                 <Picker.Items>
@@ -70,7 +69,7 @@
             </HorizontalStackLayout>
 
             <!-- Rating -->
-            <Label Text="Calificación" FontAttributes="Bold"/>
+            <Label Text="Calificación" Style="{StaticResource SubtitleStyle}"/>
             <HorizontalStackLayout Spacing="5">
                 <Button x:Name="Star1" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
                 <Button x:Name="Star2" Text="★" Clicked="OnStarTapped" BackgroundColor="Transparent" TextColor="Gray" FontSize="30"/>
@@ -80,28 +79,25 @@
             </HorizontalStackLayout>
 
             <!-- Description -->
-            <Label Text="Descripción" FontAttributes="Bold"/>
-            <Editor x:Name="DescriptionEditor"
-                    Text="{Binding Description}"
+            <Label Text="Descripción" Style="{StaticResource SubtitleStyle}"/>
+            <Editor Text="{Binding CurrentBook.Description}"
                     Placeholder="Descripción del libro"
                     HeightRequest="120"/>
 
             <!-- Action Buttons -->
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                 <Button Text="Guardar"
-                        Clicked="OnSaveBookTapped"
-                        BackgroundColor="#5B4FCF"
-                        TextColor="White"
+                        Command="{Binding SaveCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}"
                         WidthRequest="100"/>
                 <Button Text="Eliminar"
-                        Clicked="OnDeleteBookTapped"
+                        Command="{Binding DeleteCommand}"
                         BackgroundColor="#E53935"
                         TextColor="White"
                         WidthRequest="100"/>
                 <Button Text="Cancelar"
-                        Clicked="OnBackTapped"
-                        BackgroundColor="Gray"
-                        TextColor="White"
+                        Command="{Binding BackCommand}"
+                        Style="{StaticResource SecondaryButtonStyle}"
                         WidthRequest="100"/>
             </HorizontalStackLayout>
 

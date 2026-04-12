@@ -7,29 +7,54 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Label Text="Agregar Libro" FontSize="24" FontAttributes="Bold"/>
+            <Label Text="Agregar Libro" Style="{StaticResource TitleStyle}"/>
 
-            <Label Text="Título *"/>
-            <Entry x:Name="TitleEntry" Placeholder="Título del libro"/>
+            <Label Text="Título *" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding Title}"
+                   Placeholder="Título del libro"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
-            <Label Text="Autor *"/>
-            <Entry x:Name="AuthorEntry" Placeholder="Nombre del autor"/>
+            <Label Text="Autor *" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding Author}"
+                   Placeholder="Nombre del autor"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
-            <Label Text="ISBN"/>
-            <Entry x:Name="ISBNEntry" Placeholder="ISBN del libro" Keyboard="Numeric"/>
+            <Label Text="ISBN" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding ISBN}"
+                   Placeholder="ISBN del libro"
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
-            <Label Text="Año de publicación"/>
-            <Entry x:Name="YearEntry" Placeholder="Ej: 2023" Keyboard="Numeric"/>
+            <Label Text="Año de publicación" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding Year}"
+                   Placeholder="Ej: 2023"
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
-            <Label Text="Número de páginas"/>
-            <Entry x:Name="PagesEntry" Placeholder="Ej: 300" Keyboard="Numeric"/>
+            <Label Text="Número de páginas" Style="{StaticResource SubtitleStyle}"/>
+            <Entry Text="{Binding Pages}"
+                   Placeholder="Ej: 300"
+                   Keyboard="Numeric"
+                   Style="{StaticResource StandardEntryStyle}"/>
 
-            <Label Text="Descripción"/>
-            <Editor x:Name="DescriptionEntry"
+            <Label Text="Descripción" Style="{StaticResource SubtitleStyle}"/>
+            <Editor Text="{Binding Description}"
                     Placeholder="Descripción del libro"
                     HeightRequest="120"/>
 
-            <HorizontalStackLayout Spacing="10"/>
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Guardar"
+                        Command="{Binding SaveCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        WidthRequest="130"/>
+                <Button Text="Cancelar"
+                        Command="{Binding CancelCommand}"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        WidthRequest="130"/>
+            </HorizontalStackLayout>
+
         </VerticalStackLayout>
     </ScrollView>
+
 </ContentPage>
+    
