@@ -42,6 +42,11 @@
                     Placeholder="Descripción del libro"
                     HeightRequest="120"/>
 
+            <!-- Form status -->
+            <Label Text="{Binding FormStatus}"
+                   Style="{StaticResource CaptionStyle}"
+                   HorizontalOptions="Center"/>
+
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                 <Button Text="Guardar"
                         Command="{Binding SaveCommand}"
@@ -57,4 +62,3 @@
     </ScrollView>
 
 </ContentPage>
-    

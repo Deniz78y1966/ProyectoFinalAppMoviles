@@ -20,7 +20,7 @@ public class SearchViewModel : INotifyPropertyChanged
     public string SearchQuery
     {
         get => _searchQuery;
-        set { _searchQuery = value; OnPropertyChanged(); }
+        set { _searchQuery = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasQuery)); }
     }
 
     public bool IsLoading
@@ -35,18 +35,33 @@ public class SearchViewModel : INotifyPropertyChanged
         set { _noResults = value; OnPropertyChanged(); }
     }
 
+    // Calculated properties
+    public bool HasQuery => !string.IsNullOrWhiteSpace(SearchQuery);
+    public int ResultsCount => Results.Count;
+    public string ResultsMessage => ResultsCount > 0
+        ? $"{ResultsCount} resultados encontrados"
+        : "No se encontraron resultados";
+
     // Commands
+    public ICommand LoadAsyncCommand { get; }
     public ICommand SearchCommand { get; }
     public ICommand ViewDetailsCommand { get; }
 
-#pragma warning disable CS8618
     public SearchViewModel(BookApiService bookApiService)
     {
         _bookApiService = bookApiService;
+        LoadAsyncCommand = new RelayCommand(async () => await LoadAsync());
         SearchCommand = new RelayCommand(async () => await SearchBooks());
         ViewDetailsCommand = new RelayCommand<BookSearchResult>(async (book) => await ViewDetails(book));
     }
-#pragma warning restore CS8618
+
+    // LoadAsync → initial state
+    public async Task LoadAsync()
+    {
+        Results.Clear();
+        NoResults = false;
+        await Task.CompletedTask;
+    }
 
     async Task SearchBooks()
     {
@@ -63,13 +78,13 @@ public class SearchViewModel : INotifyPropertyChanged
                 Results.Add(book);
 
             NoResults = Results.Count == 0;
+            OnPropertyChanged(nameof(ResultsCount));
+            OnPropertyChanged(nameof(ResultsMessage));
         }
-#pragma warning disable CS0618
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Error", $"No se pudo buscar: {ex.Message}", "OK");
         }
-#pragma warning restore CS0618
         finally
         {
             IsLoading = false;
@@ -81,10 +96,9 @@ public class SearchViewModel : INotifyPropertyChanged
         if (book != null)
             await Shell.Current.GoToAsync($"bookdetail?bookId={book.Id}");
     }
-#pragma warning disable CS8625, 8612
-    // INotifyPropertyChanged implementation
+
+    // INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-#pragma warning restore CS8625, 8612
 }

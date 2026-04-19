@@ -2,7 +2,7 @@
 using ProyectoFinal.Helpers;
 using ProyectoFinal.Models;
 using ProyectoFinal.Services;
-using ProyectoFinal.Views;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -22,7 +22,7 @@ public class StatisticsViewModel : INotifyPropertyChanged
     public int TotalBooks
     {
         get => _totalBooks;
-        set { _totalBooks = value; OnPropertyChanged(); }
+        set { _totalBooks = value; OnPropertyChanged(); OnPropertyChanged(nameof(ReadPercentage)); }
     }
 
     public int TotalPages
@@ -46,7 +46,7 @@ public class StatisticsViewModel : INotifyPropertyChanged
     public int BooksRead
     {
         get => _booksRead;
-        set { _booksRead = value; OnPropertyChanged(); }
+        set { _booksRead = value; OnPropertyChanged(); OnPropertyChanged(nameof(ReadPercentage)); }
     }
 
     public int BooksPending
@@ -55,16 +55,25 @@ public class StatisticsViewModel : INotifyPropertyChanged
         set { _booksPending = value; OnPropertyChanged(); }
     }
 
+    // Calculated properties
+    public string ReadPercentage => TotalBooks > 0
+        ? $"{Math.Round((double)BooksRead / TotalBooks * 100, 1)}% leído"
+        : "0% leído";
+
+    public string BooksCount => $"{TotalBooks} libros en total";
+
+    public ObservableCollection<Book> Books { get; set; } = new();
     public StatisticsDrawable ChartDrawable { get; set; } = new();
-    public ICommand LoadStatisticsCommand { get; }
+
+    public ICommand LoadAsyncCommand { get; }
 
     public StatisticsViewModel(DatabaseService databaseService)
     {
         _databaseService = databaseService;
-        LoadStatisticsCommand = new RelayCommand(async () => await LoadStatistics());
+        LoadAsyncCommand = new RelayCommand(async () => await LoadAsync());
     }
 
-    public async Task LoadStatistics()
+    public async Task LoadAsync()
     {
         var (total, read, pending, totalPages) = await _databaseService.GetStatsAsync();
 
@@ -75,6 +84,11 @@ public class StatisticsViewModel : INotifyPropertyChanged
         AveragePages = total > 0 ? Math.Round((double)totalPages / total, 1) : 0;
 
         var books = await _databaseService.GetBooksAsync();
+
+        Books.Clear();
+        foreach (var book in books)
+            Books.Add(book);
+
         MostReadCategory = books
             .Where(b => b.IsRead && !string.IsNullOrEmpty(b.Genre))
             .GroupBy(b => b.Genre)
@@ -84,7 +98,10 @@ public class StatisticsViewModel : INotifyPropertyChanged
 
         ChartDrawable.BooksRead = BooksRead;
         ChartDrawable.BooksPending = BooksPending;
+
         OnPropertyChanged(nameof(ChartDrawable));
+        OnPropertyChanged(nameof(BooksCount));
+        OnPropertyChanged(nameof(ReadPercentage));
     }
 
     // INotifyPropertyChanged

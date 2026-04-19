@@ -5,6 +5,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+#pragma warning disable CS0618
+#pragma warning disable CS8618
+#pragma warning disable CS8625
+#pragma warning disable CS8612
+
 namespace ProyectoFinal.ViewModels;
 
 public class AddBookViewModel : INotifyPropertyChanged
@@ -20,13 +25,13 @@ public class AddBookViewModel : INotifyPropertyChanged
     public string Title
     {
         get => _title;
-        set { _title = value; OnPropertyChanged(); }
+        set { _title = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsFormValid)); OnPropertyChanged(nameof(FormStatus)); }
     }
 
     public string Author
     {
         get => _author;
-        set { _author = value; OnPropertyChanged(); }
+        set { _author = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsFormValid)); OnPropertyChanged(nameof(FormStatus)); }
     }
 
     public string ISBN
@@ -38,13 +43,13 @@ public class AddBookViewModel : INotifyPropertyChanged
     public string Year
     {
         get => _year;
-        set { _year = value; OnPropertyChanged(); }
+        set { _year = value; OnPropertyChanged(); OnPropertyChanged(nameof(ParsedYear)); }
     }
 
     public string Pages
     {
         get => _pages;
-        set { _pages = value; OnPropertyChanged(); }
+        set { _pages = value; OnPropertyChanged(); OnPropertyChanged(nameof(ParsedPages)); }
     }
 
     public string Description
@@ -53,24 +58,48 @@ public class AddBookViewModel : INotifyPropertyChanged
         set { _description = value; OnPropertyChanged(); }
     }
 
+    // Calculated properties
+    public bool IsFormValid =>
+        !string.IsNullOrWhiteSpace(Title) &&
+        !string.IsNullOrWhiteSpace(Author);
+
+    public string FormStatus => IsFormValid
+        ? "✓ Listo para guardar"
+        : "* Título y autor son obligatorios";
+
+    public int ParsedYear => int.TryParse(Year, out int y) ? y : 0;
+    public int ParsedPages => int.TryParse(Pages, out int p) ? p : 0;
+
     // Commands
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
+    public ICommand LoadAsyncCommand { get; }
 
     public AddBookViewModel(DatabaseService databaseService)
     {
         _databaseService = databaseService;
         SaveCommand = new RelayCommand(async () => await SaveBook());
         CancelCommand = new RelayCommand(async () => await Shell.Current.GoToAsync(".."));
+        LoadAsyncCommand = new RelayCommand(async () => await LoadAsync());
+    }
+
+    // LoadAsync → resets form
+    public async Task LoadAsync()
+    {
+        Title = string.Empty;
+        Author = string.Empty;
+        ISBN = string.Empty;
+        Year = string.Empty;
+        Pages = string.Empty;
+        Description = string.Empty;
+        await Task.CompletedTask;
     }
 
     async Task SaveBook()
     {
-        if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Author))
+        if (!IsFormValid)
         {
-#pragma warning disable CS0618
             await Shell.Current.DisplayAlert("Error", "Título y autor son obligatorios", "OK");
-#pragma warning restore CS0618
             return;
         }
 
@@ -79,8 +108,8 @@ public class AddBookViewModel : INotifyPropertyChanged
             Title = Title,
             Author = Author,
             ISBN = ISBN ?? "",
-            Year = int.TryParse(Year, out int year) ? year : 0,
-            Pages = int.TryParse(Pages, out int pages) ? pages : 0,
+            Year = ParsedYear,
+            Pages = ParsedPages,
             Description = Description ?? "",
             IsRead = false,
             Rating = 0,
@@ -89,9 +118,7 @@ public class AddBookViewModel : INotifyPropertyChanged
         };
 
         await _databaseService.SaveBookAsync(book);
-#pragma warning disable CS0618
         await Shell.Current.DisplayAlert("Éxito", $"'{book.Title}' agregado!", "OK");
-#pragma warning restore CS0618
         await Shell.Current.GoToAsync("..");
     }
 
@@ -100,3 +127,8 @@ public class AddBookViewModel : INotifyPropertyChanged
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
+
+#pragma warning restore CS0618
+#pragma warning restore CS8618
+#pragma warning restore CS8625
+#pragma warning restore CS8612

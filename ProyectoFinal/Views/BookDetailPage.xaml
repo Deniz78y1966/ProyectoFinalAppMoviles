@@ -13,6 +13,17 @@
                    Aspect="AspectFit"
                    HorizontalOptions="Center"/>
 
+            <!-- Calculated properties -->
+            <Label Text="{Binding PublishedYearText}"
+                   Style="{StaticResource CaptionStyle}"
+                   HorizontalOptions="Center"/>
+            <Label Text="{Binding PageCountText}"
+                   Style="{StaticResource CaptionStyle}"
+                   HorizontalOptions="Center"/>
+            <Label Text="{Binding RatingText}"
+                   Style="{StaticResource CaptionStyle}"
+                   HorizontalOptions="Center"/>
+
             <!-- Title -->
             <Label Text="Título" Style="{StaticResource SubtitleStyle}"/>
             <Entry Text="{Binding CurrentBook.Title}"

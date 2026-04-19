@@ -17,6 +17,6 @@ public partial class LibraryPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.LoadBooks();
+        await _viewModel.LoadAsync();
     }
 }

@@ -46,6 +46,15 @@
 
             </Grid>
 
+            <!-- Calculated properties -->
+            <Border Style="{StaticResource CardStyle}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="{Binding BooksCount}" Style="{StaticResource SubtitleStyle}"/>
+                    <Label Text="{Binding ReadPercentage}" Style="{StaticResource SubtitleStyle}"/>
+                    <Label Text="{Binding AveragePages, StringFormat='Promedio: {0} páginas'}" Style="{StaticResource CaptionStyle}"/>
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Most read category -->
             <Border BackgroundColor="{StaticResource Surface}" Padding="15"
                     StrokeShape="RoundRectangle 10" Stroke="Transparent">

@@ -1,6 +1,7 @@
 ﻿using ProyectoFinal.Helpers;
 using ProyectoFinal.Models;
 using ProyectoFinal.Services;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -17,14 +18,33 @@ public class BookDetailViewModel : INotifyPropertyChanged
     public BookDetail CurrentBook
     {
         get => _currentBook;
-        set { _currentBook = value; OnPropertyChanged(); }
+        set
+        {
+            _currentBook = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(HasDescription));
+            OnPropertyChanged(nameof(PageCountText));
+            OnPropertyChanged(nameof(PublishedYearText));
+        }
     }
 
     public int Rating
     {
         get => _rating;
-        set { _rating = value; OnPropertyChanged(); }
+        set { _rating = value; OnPropertyChanged(); OnPropertyChanged(nameof(RatingText)); }
     }
+
+    // Calculated properties
+    public bool HasDescription => !string.IsNullOrEmpty(CurrentBook?.Description);
+    public string PageCountText => CurrentBook?.PageCount > 0
+        ? $"{CurrentBook.PageCount} páginas"
+        : "Páginas desconocidas";
+    public string PublishedYearText => CurrentBook?.PublishedYear > 0
+        ? $"Publicado en {CurrentBook.PublishedYear}"
+        : "Año desconocido";
+    public string RatingText => Rating > 0
+        ? $"Calificación: {Rating}/5 ★"
+        : "Sin calificación";
 
     // Commands
     public ICommand SaveCommand { get; }
@@ -40,7 +60,8 @@ public class BookDetailViewModel : INotifyPropertyChanged
         BackCommand = new RelayCommand(async () => await Shell.Current.GoToAsync(".."));
     }
 
-    public async Task LoadBook(string bookId)
+    // LoadAsync → loads book from API
+    public async Task LoadAsync(string bookId)
     {
         try
         {

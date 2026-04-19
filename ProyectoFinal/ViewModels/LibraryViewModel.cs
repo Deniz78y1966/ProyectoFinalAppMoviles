@@ -14,8 +14,16 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public ObservableCollection<Book> Books { get; set; } = new();
 
+    // Calculated properties
+    public int BooksCount => Books.Count;
+    public int ReadCount => Books.Count(b => b.IsRead);
+    public int PendingCount => Books.Count(b => !b.IsRead);
+    public string ReadPercentage => BooksCount > 0
+        ? $"{Math.Round((double)ReadCount / BooksCount * 100, 1)}% leído"
+        : "0% leído";
+
     // Commands
-    public ICommand LoadBooksCommand { get; }
+    public ICommand LoadAsyncCommand { get; }
     public ICommand ViewDetailsCommand { get; }
     public ICommand MarkAsReadCommand { get; }
     public ICommand AddBookCommand { get; }
@@ -23,18 +31,25 @@ public class LibraryViewModel : INotifyPropertyChanged
     public LibraryViewModel(DatabaseService databaseService)
     {
         _databaseService = databaseService;
-        LoadBooksCommand = new RelayCommand(async () => await LoadBooks());
+        LoadAsyncCommand = new RelayCommand(async () => await LoadAsync());
         ViewDetailsCommand = new RelayCommand<Book>(async (book) => await ViewDetails(book));
         MarkAsReadCommand = new RelayCommand<Book>(async (book) => await MarkAsRead(book));
         AddBookCommand = new RelayCommand(async () => await Shell.Current.GoToAsync("addbook"));
     }
 
-    public async Task LoadBooks()
+    // LoadAsync → loads initial data
+    public async Task LoadAsync()
     {
         var books = await _databaseService.GetBooksAsync();
         Books.Clear();
         foreach (var book in books)
             Books.Add(book);
+
+        // Notify calculated properties
+        OnPropertyChanged(nameof(BooksCount));
+        OnPropertyChanged(nameof(ReadCount));
+        OnPropertyChanged(nameof(PendingCount));
+        OnPropertyChanged(nameof(ReadPercentage));
     }
 
     async Task ViewDetails(Book book)
@@ -49,7 +64,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             book.IsRead = true;
             await _databaseService.SaveBookAsync(book);
-            await LoadBooks();
+            await LoadAsync();
             await Shell.Current.DisplayAlert("Éxito", $"'{book.Title}' marcado como leído!", "OK");
         }
     }

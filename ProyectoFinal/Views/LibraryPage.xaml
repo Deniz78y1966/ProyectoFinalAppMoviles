@@ -14,6 +14,24 @@
                 Style="{StaticResource PrimaryButtonStyle}"
                 HorizontalOptions="End"/>
 
+        <!-- Stats bar -->
+        <Border Style="{StaticResource CardStyle}">
+            <Grid ColumnDefinitions="*,*,*">
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                    <Label Text="{Binding BooksCount}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                    <Label Text="Total" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label Text="{Binding ReadCount}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                    <Label Text="Leídos" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                    <Label Text="{Binding ReadPercentage}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                    <Label Text="Progreso" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
         <CollectionView ItemsSource="{Binding Books}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

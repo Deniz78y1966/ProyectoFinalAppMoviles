@@ -5,9 +5,18 @@ namespace ProyectoFinal.Views;
 
 public partial class AddBookPage : ContentPage
 {
+    private readonly AddBookViewModel _viewModel;
+
     public AddBookPage(DatabaseService databaseService)
     {
         InitializeComponent();
-        BindingContext = new AddBookViewModel(databaseService);
+        _viewModel = new AddBookViewModel(databaseService);
+        BindingContext = _viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.LoadAsync();
     }
 }

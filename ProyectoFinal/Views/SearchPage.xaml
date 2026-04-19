@@ -33,6 +33,12 @@
                HorizontalOptions="Center"
                Style="{StaticResource CaptionStyle}"/>
 
+        <!-- Results count -->
+        <Label Text="{Binding ResultsMessage}"
+               IsVisible="{Binding HasQuery}"
+               Style="{StaticResource CaptionStyle}"
+               HorizontalOptions="Center"/>
+
         <!-- Results list -->
         <CollectionView ItemsSource="{Binding Results}"
                         SelectionMode="None">

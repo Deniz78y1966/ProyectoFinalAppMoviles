@@ -17,7 +17,7 @@ public partial class StatisticsPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.LoadStatistics();
+        await _viewModel.LoadAsync();
         StatsChart.Invalidate();
     }
 }

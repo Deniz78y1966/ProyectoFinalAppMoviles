@@ -1,4 +1,3 @@
-using ProyectoFinal.Models;
 using ProyectoFinal.Services;
 using ProyectoFinal.ViewModels;
 
@@ -16,11 +15,15 @@ public partial class BookDetailPage : ContentPage
         set
         {
             _bookId = value;
-            _viewModel.LoadBook(value);
+#pragma warning disable CS4014
+            _viewModel.LoadAsync(value);
+#pragma warning restore CS4014
         }
     }
 
+#pragma warning disable CS8618
     public BookDetailPage(BookApiService bookApiService, DatabaseService databaseService)
+#pragma warning restore CS8618
     {
         InitializeComponent();
         _viewModel = new BookDetailViewModel(bookApiService, databaseService);
