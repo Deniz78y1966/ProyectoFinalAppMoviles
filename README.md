@@ -54,6 +54,6 @@ Una aplicación móvil intuitiva diseñada para que los amantes de la lectura pu
 ### Modo Dark (Oscuro)
 | Vista Principal | Gráficos de Datos |
 | :---: | :---: |
-| ![Dark Mode 1](image_4d57fd.png) | ![Dark Mode 2](image_4d57e0.png) |
+| ![Dark Mode](img/DarkMode.png) |
 
 ---
