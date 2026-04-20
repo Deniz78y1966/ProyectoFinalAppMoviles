@@ -1,4 +1,4 @@
-i﻿# ProyectoFinalAppMoviles --> Biblioteca.mg
+﻿# ProyectoFinalAppMoviles --> Biblioteca
 
 
 Una aplicación móvil intuitiva diseñada para que los amantes de la lectura puedan gestionar su catálogo personal de libros, realizar un seguimiento de su progreso y visualizar estadísticas de sus hábitos de lectura.
@@ -52,8 +52,7 @@ Una aplicación móvil intuitiva diseñada para que los amantes de la lectura pu
 | ![Light Mode 1](img/MiBiblioteca.png) | ![Light Mode 2](img/BuscarLibros.png) | ![Light Mode 3](img/Estadisticas.png) |
 
 ### Modo Dark (Oscuro)
-| Vista Principal 
-| :---: 
+| Vista Principal |
+| :---: | 
 | ![Dark Mode](img/DarkMode.png) |
-
 ---
