@@ -5,93 +5,126 @@
              x:Name="MainPage"
              Title="Mi Biblioteca">
 
-    <VerticalStackLayout Padding="20" Spacing="15">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Label Text="Mi Biblioteca" Style="{StaticResource TitleStyle}"/>
+            <Label Text="Mi Biblioteca" Style="{StaticResource TitleStyle}"/>
 
-        <Button Text="+ Agregar Libro"
-                Command="{Binding AddBookCommand}"
-                Style="{StaticResource PrimaryButtonStyle}"
-                HorizontalOptions="End"/>
+            <Button Text="+ Agregar Libro"
+                    Command="{Binding AddBookCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    HorizontalOptions="End"/>
 
-        <!-- Stats bar -->
-        <Border Style="{StaticResource CardStyle}">
-            <Grid ColumnDefinitions="*,*,*">
-                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
-                    <Label Text="{Binding BooksCount}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
-                    <Label Text="Total" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                    <Label Text="{Binding ReadCount}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
-                    <Label Text="Leídos" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
-                    <Label Text="{Binding ReadPercentage}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
-                    <Label Text="Progreso" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-            </Grid>
-        </Border>
+            <!-- Search bar -->
+            <SearchBar Placeholder="Buscar por título o autor..."
+                       Text="{Binding SearchQuery}"
+                       BackgroundColor="{StaticResource Surface}"/>
 
-        <CollectionView ItemsSource="{Binding Books}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource CardStyle}">
-                        <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
+            <!-- Filter buttons -->
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Todos"
+                        Command="{Binding FilterAllCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        FontSize="12"
+                        Padding="10,5"/>
+                <Button Text="Leídos"
+                        Command="{Binding FilterReadCommand}"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        FontSize="12"
+                        Padding="10,5"/>
+                <Button Text="Pendientes"
+                        Command="{Binding FilterPendingCommand}"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        FontSize="12"
+                        Padding="10,5"/>
+            </HorizontalStackLayout>
 
-                            <!-- Cover Image -->
-                            <Image Grid.Column="0"
-                                   Source="{Binding CoverUrl}"
-                                   Aspect="AspectFill"
-                                   HeightRequest="100"/>
+            <!-- Stats bar -->
+            <Border Style="{StaticResource CardStyle}">
+                <Grid ColumnDefinitions="*,*,*">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                        <Label Text="{Binding BooksCount}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                        <Label Text="Total" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="{Binding ReadBooks}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                        <Label Text="Leídos" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                        <Label Text="{Binding ReadPercentage}" Style="{StaticResource TitleStyle}" HorizontalOptions="Center"/>
+                        <Label Text="Progreso" Style="{StaticResource CaptionStyle}" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
 
-                            <!-- Info -->
-                            <VerticalStackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="{Binding Title}"
-                                       Style="{StaticResource SubtitleStyle}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Author}"
-                                       Style="{StaticResource CaptionStyle}"/>
-                                <Label Text="{Binding ISBN}"
-                                       Style="{StaticResource CaptionStyle}"/>
-                                <Label Text="{Binding IsRead, Converter={StaticResource BoolToReadConverter}}"
-                                       Style="{StaticResource CaptionStyle}"/>
-                            </VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding Books}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}">
+                            <Grid ColumnDefinitions="80,*,Auto" ColumnSpacing="10">
 
-                            <!-- Actions -->
-                            <VerticalStackLayout Grid.Column="2" Spacing="5">
-                                <Button Text="👁"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewDetailsCommand}"
-                                        CommandParameter="{Binding .}"
-                                        Style="{StaticResource PrimaryButtonStyle}"
-                                        WidthRequest="45"/>
-                                <Button Text="✓"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.MarkAsReadCommand}"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="#43A047"
-                                        TextColor="White"
-                                        CornerRadius="8"
-                                        WidthRequest="45"/>
-                            </VerticalStackLayout>
+                                <!-- Cover Image -->
+                                <Image Grid.Column="0"
+                                       Source="{Binding CoverUrl}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="100"/>
 
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                                <!-- Info -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                    <Label Text="{Binding Title}"
+                                           Style="{StaticResource SubtitleStyle}"
+                                           LineBreakMode="TailTruncation"/>
+                                    <Label Text="{Binding Author}"
+                                           Style="{StaticResource CaptionStyle}"/>
+                                    <Label Text="{Binding ISBN}"
+                                           Style="{StaticResource CaptionStyle}"/>
+                                    <Label Text="{Binding IsRead, Converter={StaticResource BoolToReadConverter}}"
+                                           Style="{StaticResource CaptionStyle}"/>
+                                </VerticalStackLayout>
 
-            <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center" Spacing="10" Padding="20">
-                    <Label Text="📚" FontSize="48" HorizontalOptions="Center"/>
-                    <Label Text="Tu biblioteca está vacía"
-                           Style="{StaticResource CaptionStyle}"
-                           HorizontalOptions="Center"/>
-                    <Button Text="Agregar primer libro"
-                            Command="{Binding AddBookCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}"/>
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
+                                <!-- Actions -->
+                                <VerticalStackLayout Grid.Column="2" Spacing="5">
+                                    <Button Text="👁"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewDetailsCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            WidthRequest="45"/>
+                                    <Button Text="✓"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.MarkAsReadCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#43A047"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            WidthRequest="45"/>
+                                    <Button Text="🗑"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteBookCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#E53935"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            WidthRequest="45"/>
+                                </VerticalStackLayout>
 
-        </CollectionView>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-    </VerticalStackLayout>
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10" Padding="20">
+                        <Label Text="📚" FontSize="48" HorizontalOptions="Center"/>
+                        <Label Text="Tu biblioteca está vacía"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Agregar primer libro"
+                                Command="{Binding AddBookCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

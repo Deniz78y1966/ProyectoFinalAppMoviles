@@ -24,6 +24,11 @@
                    Placeholder="ISBN del libro"
                    Keyboard="Numeric"
                    Style="{StaticResource StandardEntryStyle}"/>
+            <!-- ISBN validation error -->
+            <Label Text="{Binding ISBNError}"
+                   TextColor="#E53935"
+                   FontSize="11"
+                   IsVisible="{Binding IsISBNValid, Converter={StaticResource InverseBoolConverter}}"/>
 
             <Label Text="Año de publicación" Style="{StaticResource SubtitleStyle}"/>
             <Entry Text="{Binding Year}"

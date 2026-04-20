@@ -37,7 +37,15 @@ public class AddBookViewModel : INotifyPropertyChanged
     public string ISBN
     {
         get => _isbn;
-        set { _isbn = value; OnPropertyChanged(); }
+        set
+        {
+            _isbn = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsISBNValid));
+            OnPropertyChanged(nameof(ISBNError));
+            OnPropertyChanged(nameof(IsFormValid));
+            OnPropertyChanged(nameof(FormStatus));
+        }
     }
 
     public string Year
@@ -59,12 +67,28 @@ public class AddBookViewModel : INotifyPropertyChanged
     }
 
     // Calculated properties
+    public bool IsISBNValid
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(ISBN))
+                return true;
+            var cleanISBN = ISBN.Replace("-", "").Replace(" ", "");
+            return cleanISBN.Length == 10 || cleanISBN.Length == 13;
+        }
+    }
+
+    public string ISBNError => IsISBNValid ? "" : "ISBN debe tener 10 o 13 dígitos";
+
     public bool IsFormValid =>
         !string.IsNullOrWhiteSpace(Title) &&
-        !string.IsNullOrWhiteSpace(Author);
+        !string.IsNullOrWhiteSpace(Author) &&
+        IsISBNValid;
 
-    public string FormStatus => IsFormValid
-        ? "✓ Listo para guardar"
+    public string FormStatus => !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author)
+        ? IsISBNValid
+            ? "✓ Listo para guardar"
+            : "⚠️ ISBN incorrecto"
         : "* Título y autor son obligatorios";
 
     public int ParsedYear => int.TryParse(Year, out int y) ? y : 0;
@@ -83,7 +107,6 @@ public class AddBookViewModel : INotifyPropertyChanged
         LoadAsyncCommand = new RelayCommand(async () => await LoadAsync());
     }
 
-    // LoadAsync → resets form
     public async Task LoadAsync()
     {
         Title = string.Empty;
@@ -99,7 +122,11 @@ public class AddBookViewModel : INotifyPropertyChanged
     {
         if (!IsFormValid)
         {
-            await Shell.Current.DisplayAlert("Error", "Título y autor son obligatorios", "OK");
+            await Shell.Current.DisplayAlert("Error",
+                !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Author)
+                    ? "ISBN incorrecto. Debe tener 10 o 13 dígitos"
+                    : "Título y autor son obligatorios",
+                "OK");
             return;
         }
 

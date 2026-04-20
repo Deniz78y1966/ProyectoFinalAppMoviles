@@ -29,27 +29,27 @@
             <Color x:Key="Background">#FAF0E6</Color>
             <Color x:Key="Surface">#FFF8DC</Color>
 
-            <!-- TitleStyle -->
+            <!-- TitleStyle (28pt, Bold) -->
             <Style x:Key="TitleStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="28"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="{StaticResource Primary}"/>
             </Style>
 
-            <!-- SubtitleStyle -->
+            <!-- SubtitleStyle (20pt, Bold, Primary) -->
             <Style x:Key="SubtitleStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="{StaticResource Primary}"/>
             </Style>
 
-            <!-- CaptionStyle -->
+            <!-- CaptionStyle (12pt, Secondary) -->
             <Style x:Key="CaptionStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextColor" Value="{StaticResource Secondary}"/>
             </Style>
 
-            <!-- CardStyle -->
+            <!-- CardStyle (Border con sombra) -->
             <Style x:Key="CardStyle" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
                 <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
@@ -91,25 +91,43 @@
                 <Setter Property="Margin" Value="0,5"/>
             </Style>
 
-            <!-- Global Styles -->
+            <!-- Global Styles with AppThemeBinding (7+ estilos globales) -->
             <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource Primary}"/>
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
             </Style>
 
             <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
-                <Setter Property="TextColor" Value="White"/>
                 <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
             </Style>
 
             <Style TargetType="Entry">
-                <Setter Property="TextColor" Value="{StaticResource Primary}"/>
-                <Setter Property="PlaceholderColor" Value="{StaticResource Secondary}"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light=#D2691E, Dark=#DEB887}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#FFF8DC, Dark=#3D3020}"/>
             </Style>
 
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light=#D2691E, Dark=#DEB887}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#FFF8DC, Dark=#3D3020}"/>
+            </Style>
+    
             <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
-                <Setter Property="BackgroundColor" Value="{StaticResource Background}"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#FAF0E6, Dark=#2C2416}"/>
+            </Style>
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
+                <Setter Property="BarTextColor" Value="White"/>
+            </Style>
+
+            <Style TargetType="Shell" ApplyToDerivedTypes="True">
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=#8B4513, Dark=#CD853F}"/>
+                <Setter Property="Shell.ForegroundColor" Value="White"/>
+                <Setter Property="Shell.TitleColor" Value="White"/>
             </Style>
 
             <converters:BoolToReadConverter x:Key="BoolToReadConverter"/>
